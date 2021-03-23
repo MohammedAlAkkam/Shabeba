@@ -45,7 +45,7 @@ namespace WindowsFormsApplication30
             cmd.Parameters.AddWithValue("@Name", txtName.Text);
             cmd.ExecuteNonQuery();
 
-            string message = " تم إضافة العضو ";
+        string message = " تم إضافة العضو ";
             MessageBox.Show(message + txtName.Text);
             connection.Close();
             txtName.Clear();
