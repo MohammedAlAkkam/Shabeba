@@ -39,7 +39,7 @@ namespace WindowsFormsApplication30
         {
 
             connection.Open();
-            string cmdString = @"Insert into Member values(@ID,N'@Name')";
+            string cmdString = @"Insert into Member values(@ID,N@Name)";
             SqlCommand cmd = new SqlCommand(cmdString, connection);
             cmd.Parameters.AddWithValue("@ID", Convert.ToInt32(txtId.Text));
             cmd.Parameters.AddWithValue("@Name", txtName.Text);
