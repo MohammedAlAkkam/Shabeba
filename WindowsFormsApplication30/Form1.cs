@@ -49,7 +49,7 @@ namespace WindowsFormsApplication30
             MessageBox.Show(message + txtName.Text);
             connection.Close();
             txtName.Clear();
-            txtId.Clear();
+            txtAddress.Clear();
         }
 
         private void Form1_Load(object sender, EventArgs e)
