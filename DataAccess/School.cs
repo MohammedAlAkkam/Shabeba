@@ -9,12 +9,22 @@ namespace DataAccess
     public class School
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string name { get; set; }
         public string Address { get; set; }
         public string Manager { get; set; }
-        public string ManagerNumber { get; set; }
-        public string SchoolNumber { get; set; }
-        public int NumberOfMember { get; set; }
+        public string ManagerPhone { get; set; }
+        public string SchoolPhone { get; set; }
+        public int NumberOfMembers { get; set; }
+        public void FillData(int Id, string name, string Address, string Manager, string ManagerPhone, string SchoolPhone, int NumberOfMembers)
+        {
+            this.Id = Id;
+            this.name = name;
+            this.Address = Address;
+            this.Manager = Manager;
+            this.ManagerPhone = ManagerPhone;
+            this.SchoolPhone = SchoolPhone;
+            this.NumberOfMembers = NumberOfMembers;
+        }
     }
 
 }

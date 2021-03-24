@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Text;
 using System.IO;
-
+using System.Data.SqlClient;
+using Dapper;
+using DataAccess;
 namespace Shabeba
 {
     public partial class School : Form
@@ -17,17 +19,64 @@ namespace Shabeba
         public School()
         {
             InitializeComponent();
+            this.MinimumSize = new Size(1100, 400);
         }
+        private static DataTable GetSchools()
+        {
+            SqlConnection dbConnection = new SqlConnection("Data Source=.;Initial Catalog=Shabeba;Integrated Security=True");
+            SqlCommand cmd = new SqlCommand("SELECT * FROM [المدارس]",dbConnection);
+            dbConnection.Open();
+            SqlDataReader data = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(data);
+            dbConnection.Close();
+            return dt;
 
+        }
         private void School_Load(object sender, EventArgs e)
         {
-            MessageBox.Show(Directory.GetCurrentDirectory());
-           /* PrivateFontCollection privateFont = new PrivateFontCollection();
-            privateFont.AddFontFile(@"C:\Users\SAEED\Source\Repos\Shabeba\WindowsFormsApplication30\font.ttf");
-            foreach (Control control in this.Controls)
+
+            dgv.Rows.Clear();
+            dgv.DataSource = GetSchools();
+        }
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            using (IDbConnection dbConnection = new SqlConnection("Data Source=.;Initial Catalog=Shabeba;Integrated Security=True"))
             {
-                control.Font = new Font(privateFont.Families[0],16,FontStyle.Regular);
-            }*/
+                string insert = "insert into [المدارس] values (@id,@name,@Address,@Manager,@ManagerPhone,@SchoolPhone,@NumberOfMembers)";
+                DataAccess.School schoole = new DataAccess.School();
+                schoole.FillData(Convert.ToInt32(txtId.Text), txtName.Text, txtAddress.Text, txtNameManager.Text, txtNumberOfManager.Text, txtShcoolPhone.Text, 0);
+                var resutl = dbConnection.Execute(insert, schoole);
+            }
+            
+            dgv.DataSource = GetSchools();
+            btnReset.PerformClick();
+        }
+
+        private void txtId_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            txtId.Clear();
+            txtName.Clear();
+            txtAddress.Clear();
+            txtNameManager.Clear();
+            txtNumberOfManager.Clear();
+            txtShcoolPhone.Clear();
         }
     }
 }
