@@ -36,10 +36,32 @@ namespace Shabeba
         private void ValidControl()
         {
             if (txtId.Text == "")
+            {
                 MessageBox.Show("يرجى ادخال رقم المدرسة");
-            else if (txtName.Text  == "")
+                return;
+            }
+            else if (txtName.Text == "")
+            {
+                MessageBox.Show("يرجى اسم المدرسة");
+                return;
+            }
+            else if (txtAddress.Text == "")
+            {
+                MessageBox.Show("ادخل عنوان المدرسة");
+                return;
+            }
+            else if (txtNameManager.Text == "")
+            {
+                MessageBox.Show("ادخل اسم المدير");
+                return;
+            }
+            else if (txtNumberOfManager.Text == "ادخل رقم المدير")
+            {
+                MessageBox.Show("ادخل اسم المدرسة");
+                return;
 
-        }
+
+            }
         private void School_Load(object sender, EventArgs e)
         {
 
