@@ -83,6 +83,7 @@ namespace WindowsFormsApplication30
         {
             txtId.Text = dataGridView1.Rows[e.RowIndex].Cells[0].FormattedValue.ToString();
             txtName.Text = dataGridView1.Rows[e.RowIndex].Cells[1].FormattedValue.ToString();
+            //sdsada
         }
     }
 }
