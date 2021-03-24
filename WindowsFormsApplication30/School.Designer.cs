@@ -215,10 +215,12 @@ namespace Shabeba
             // 
             this.dgv.AllowUserToAddRows = false;
             this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgv.Location = new System.Drawing.Point(0, 318);
             this.dgv.Name = "dgv";
+            this.dgv.RowHeadersWidth = 60;
             this.dgv.RowTemplate.Height = 40;
             this.dgv.Size = new System.Drawing.Size(1152, 302);
             this.dgv.TabIndex = 16;

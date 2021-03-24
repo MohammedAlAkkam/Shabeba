@@ -24,13 +24,20 @@ namespace Shabeba
         private static DataTable GetSchools()
         {
             SqlConnection dbConnection = new SqlConnection("Data Source=.;Initial Catalog=Shabeba;Integrated Security=True");
-            SqlCommand cmd = new SqlCommand("SELECT * FROM [المدارس]",dbConnection);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM [المدارس]", dbConnection);
             dbConnection.Open();
             SqlDataReader data = cmd.ExecuteReader();
             DataTable dt = new DataTable();
             dt.Load(data);
             dbConnection.Close();
             return dt;
+
+        }
+        private void ValidControl()
+        {
+            if (txtId.Text == "")
+                MessageBox.Show("يرجى ادخال رقم المدرسة");
+            else if (txtName.Text  == "")
 
         }
         private void School_Load(object sender, EventArgs e)
@@ -48,7 +55,7 @@ namespace Shabeba
                 schoole.FillData(Convert.ToInt32(txtId.Text), txtName.Text, txtAddress.Text, txtNameManager.Text, txtNumberOfManager.Text, txtShcoolPhone.Text, 0);
                 var resutl = dbConnection.Execute(insert, schoole);
             }
-            
+
             dgv.DataSource = GetSchools();
             btnReset.PerformClick();
         }
