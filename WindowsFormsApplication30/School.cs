@@ -50,6 +50,8 @@ namespace Shabeba
         {
             using (IDbConnection dbConnection = new SqlConnection("Data Source=.;Initial Catalog=Shabeba;Integrated Security=True"))
             {
+                string name = txtName.Text;
+                var exist = dbConnection.Query<object>("SELECT 1 WHERE EXIST (SELECT 1 FROM [المدارس] WHERE [اسم المدرسة] = @name)",new { name});
                 string insert = "insert into [المدارس] values (@id,@name,@Address,@Manager,@ManagerPhone,@SchoolPhone,@NumberOfMembers)";
                 DataAccess.School schoole = new DataAccess.School();
                 schoole.FillData(Convert.ToInt32(txtId.Text), txtName.Text, txtAddress.Text, txtNameManager.Text, txtNumberOfManager.Text, txtShcoolPhone.Text, 0);
@@ -84,6 +86,11 @@ namespace Shabeba
             txtNameManager.Clear();
             txtNumberOfManager.Clear();
             txtShcoolPhone.Clear();
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

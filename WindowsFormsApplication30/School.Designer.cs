@@ -191,6 +191,7 @@ namespace Shabeba
             this.btnEdit.TabIndex = 13;
             this.btnEdit.Text = "تعديل";
             this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnDelete
             // 
