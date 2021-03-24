@@ -39,10 +39,10 @@ namespace WindowsFormsApplication30
         {
 
             connection.Open();
-            string cmdString = @"Insert into Member (Id,name) values(@ID,@Name)";
+            string cmdString = @"Insert into Member (رقم العضو,أسم العضو) values(@رقم العضو@,أسم العضو)";
             SqlCommand cmd = new SqlCommand(cmdString, connection);
-            cmd.Parameters.AddWithValue("@ID", Convert.ToInt32(txtId.Text));
-            cmd.Parameters.AddWithValue("@Name", txtName.Text);
+            cmd.Parameters.AddWithValue("@رقم العضو", Convert.ToInt32(txtId.Text));
+            cmd.Parameters.AddWithValue("@أسم العضو", txtName.Text);
             cmd.ExecuteNonQuery();
 
         string message = " تم إضافة العضو ";
