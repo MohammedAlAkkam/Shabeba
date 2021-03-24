@@ -39,7 +39,7 @@ namespace WindowsFormsApplication30
         {
 
             connection.Open();
-            string cmdString = @"Insert into Member values(@ID,@Name)";
+            string cmdString = @"Insert into Member (Id,name) values(@ID,@Name)";
             SqlCommand cmd = new SqlCommand(cmdString, connection);
             cmd.Parameters.AddWithValue("@ID", Convert.ToInt32(txtId.Text));
             cmd.Parameters.AddWithValue("@Name", txtName.Text);
@@ -48,19 +48,24 @@ namespace WindowsFormsApplication30
         string message = " تم إضافة العضو ";
             MessageBox.Show(message + txtName.Text);
             connection.Close();
+            RefreshDAtagridView();
+            
             txtName.Clear();
             txtAddress.Clear();
         }
-
-        private void Form1_Load(object sender, EventArgs e)
+        private void RefreshDAtagridView()
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Member",connection);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Member", connection);
             connection.Open();
             SqlDataReader data = cmd.ExecuteReader();
             DataTable Member = new DataTable();
             Member.Load(data);
             dataGridView1.DataSource = Member;
             connection.Close();
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            RefreshDAtagridView();
         }
 
         private void txtId_KeyPress(object sender, KeyPressEventArgs e)
@@ -73,7 +78,7 @@ namespace WindowsFormsApplication30
 
         private void txtName_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsLetter(e.KeyChar) && !(char.IsControl(e.KeyChar)))
+            if (!char.IsLetter(e.KeyChar) && !(char.IsControl(e.KeyChar)) &&!char.IsWhiteSpace(e.KeyChar))
             {
                 e.Handled = true;
             }

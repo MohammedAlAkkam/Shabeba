@@ -16,7 +16,7 @@ namespace WindowsFormsApplication30
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Shabeba.School());
+            Application.Run(new Form1());
         }
     }
 }

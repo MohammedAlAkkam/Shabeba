@@ -22,12 +22,12 @@ namespace Shabeba
         private void School_Load(object sender, EventArgs e)
         {
             MessageBox.Show(Directory.GetCurrentDirectory());
-            PrivateFontCollection privateFont = new PrivateFontCollection();
+           /* PrivateFontCollection privateFont = new PrivateFontCollection();
             privateFont.AddFontFile(@"C:\Users\SAEED\Source\Repos\Shabeba\WindowsFormsApplication30\font.ttf");
             foreach (Control control in this.Controls)
             {
                 control.Font = new Font(privateFont.Families[0],16,FontStyle.Regular);
-            }
+            }*/
         }
     }
 }
