@@ -46,8 +46,16 @@ namespace Shabeba
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSearch = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameofmanager = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.phoneofmanager = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PhoneOfSchool = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NumberofMember = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -175,6 +183,7 @@ namespace Shabeba
             // 
             // btnAdd
             // 
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAdd.Location = new System.Drawing.Point(927, 201);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(128, 45);
@@ -185,6 +194,7 @@ namespace Shabeba
             // 
             // btnEdit
             // 
+            this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEdit.Location = new System.Drawing.Point(652, 201);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(128, 45);
@@ -201,6 +211,7 @@ namespace Shabeba
             this.btnDelete.TabIndex = 14;
             this.btnDelete.Text = "حذف";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnReset
             // 
@@ -218,6 +229,14 @@ namespace Shabeba
             this.dgv.AllowUserToDeleteRows = false;
             this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.id,
+            this.name,
+            this.address,
+            this.nameofmanager,
+            this.phoneofmanager,
+            this.PhoneOfSchool,
+            this.NumberofMember});
             this.dgv.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgv.Location = new System.Drawing.Point(0, 318);
             this.dgv.Name = "dgv";
@@ -225,30 +244,95 @@ namespace Shabeba
             this.dgv.RowTemplate.Height = 40;
             this.dgv.Size = new System.Drawing.Size(1152, 302);
             this.dgv.TabIndex = 16;
+            this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellClick);
             // 
-            // textBox1
+            // txtSearch
             // 
-            this.textBox1.Location = new System.Drawing.Point(393, 272);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(325, 33);
-            this.textBox1.TabIndex = 17;
+            this.txtSearch.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtSearch.Location = new System.Drawing.Point(393, 272);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(325, 33);
+            this.txtSearch.TabIndex = 17;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            this.txtSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearch_KeyPress);
             // 
             // label7
             // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(758, 275);
+            this.label7.Location = new System.Drawing.Point(749, 275);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(113, 25);
             this.label7.TabIndex = 18;
             this.label7.Text = "اسم المدرسة";
+            // 
+            // id
+            // 
+            this.id.HeaderText = "رقم المدرسة";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Width = 133;
+            // 
+            // name
+            // 
+            this.name.HeaderText = "اسم المدرسة";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.Width = 138;
+            // 
+            // address
+            // 
+            this.address.HeaderText = "العنوان";
+            this.address.Name = "address";
+            this.address.ReadOnly = true;
+            this.address.Width = 93;
+            // 
+            // nameofmanager
+            // 
+            this.nameofmanager.HeaderText = "اسم المدير";
+            this.nameofmanager.Name = "nameofmanager";
+            this.nameofmanager.ReadOnly = true;
+            this.nameofmanager.Width = 120;
+            // 
+            // phoneofmanager
+            // 
+            this.phoneofmanager.HeaderText = "هاتف المدير";
+            this.phoneofmanager.Name = "phoneofmanager";
+            this.phoneofmanager.ReadOnly = true;
+            this.phoneofmanager.Width = 131;
+            // 
+            // PhoneOfSchool
+            // 
+            this.PhoneOfSchool.HeaderText = "هاتف المدرسة";
+            this.PhoneOfSchool.Name = "PhoneOfSchool";
+            this.PhoneOfSchool.ReadOnly = true;
+            this.PhoneOfSchool.Width = 149;
+            // 
+            // NumberofMember
+            // 
+            this.NumberofMember.HeaderText = "عدد الأعضاء";
+            this.NumberofMember.Name = "NumberofMember";
+            this.NumberofMember.ReadOnly = true;
+            this.NumberofMember.Width = 132;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(56, 269);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(227, 37);
+            this.button1.TabIndex = 19;
+            this.button1.Text = "تصدير إلى جدول اكسيل";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // School
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1152, 620);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnDelete);
@@ -270,6 +354,7 @@ namespace Shabeba
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "School";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "School";
             this.Load += new System.EventHandler(this.School_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
@@ -297,7 +382,15 @@ namespace Shabeba
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.DataGridView dgv;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn address;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameofmanager;
+        private System.Windows.Forms.DataGridViewTextBoxColumn phoneofmanager;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PhoneOfSchool;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NumberofMember;
+        private System.Windows.Forms.Button button1;
     }
 }

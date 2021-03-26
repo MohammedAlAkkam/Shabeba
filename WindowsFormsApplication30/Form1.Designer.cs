@@ -271,7 +271,7 @@
             // button1
             // 
             this.button1.AutoSize = true;
-            this.button1.Location = new System.Drawing.Point(97, 345);
+            this.button1.Location = new System.Drawing.Point(105, 332);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(109, 40);
             this.button1.TabIndex = 11;
