@@ -12,7 +12,7 @@ using static DataAccess.HelperFunctions;
 using System.Text.RegularExpressions;
 namespace Shabeba
 {
-    public partial class School : Form
+    public partial class School : UserControl
     {
         public School()
         {
@@ -28,7 +28,11 @@ namespace Shabeba
             using (IDbConnection connection = new SqlConnection(connectionstring))
             {
                 schools = connection.Query<DataAccess.School>(sql).ToList();
+                schools.ForEach(item => { 
+                item.NumberOfMembers = connection.QueryFirst<int>("SELECT COUNT(SchoolId) FROM [Members] WHERE SchoolId=@Id", new { item.Id });
+                });
             }
+           
             return ToDataTable(schools);
         }
         private bool ValidControl()
@@ -82,7 +86,7 @@ namespace Shabeba
                     string insert = "insert into [Schools] values (@id,@name,@Address,@Manager,@ManagerPhone,@SchoolPhone)";
                     DataAccess.School schoole = new DataAccess.School();
                     schoole.FillData(Convert.ToInt32(txtId.Text), Regex.Replace(txtName.Text, @"\s+", " "), Regex.Replace(txtAddress.Text, @"\s+", " "), Regex.Replace(txtNameManager.Text, @"\s+", " "), txtNumberOfManager.Text, txtShcoolPhone.Text);
-                    var resutl = dbConnection.Execute(insert, schoole);
+                    dbConnection.Execute(insert, schoole);
                 }
                 string namemessage = txtName.Text;
                 btnReset.PerformClick();

@@ -63,7 +63,7 @@ namespace Shabeba
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(923, 20);
+            this.label1.Location = new System.Drawing.Point(1039, 20);
             this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(120, 28);
@@ -73,7 +73,7 @@ namespace Shabeba
             // txtId
             // 
             this.txtId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtId.Location = new System.Drawing.Point(749, 17);
+            this.txtId.Location = new System.Drawing.Point(865, 17);
             this.txtId.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(164, 36);
@@ -83,7 +83,7 @@ namespace Shabeba
             // txtName
             // 
             this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.Location = new System.Drawing.Point(749, 99);
+            this.txtName.Location = new System.Drawing.Point(865, 99);
             this.txtName.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(164, 36);
@@ -94,7 +94,7 @@ namespace Shabeba
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(923, 102);
+            this.label2.Location = new System.Drawing.Point(1039, 102);
             this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(128, 28);
@@ -104,7 +104,7 @@ namespace Shabeba
             // txtNameManager
             // 
             this.txtNameManager.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtNameManager.Location = new System.Drawing.Point(425, 99);
+            this.txtNameManager.Location = new System.Drawing.Point(483, 99);
             this.txtNameManager.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.txtNameManager.Name = "txtNameManager";
             this.txtNameManager.Size = new System.Drawing.Size(164, 36);
@@ -115,7 +115,7 @@ namespace Shabeba
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(602, 105);
+            this.label3.Location = new System.Drawing.Point(660, 105);
             this.label3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(106, 28);
@@ -125,7 +125,7 @@ namespace Shabeba
             // txtAddress
             // 
             this.txtAddress.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtAddress.Location = new System.Drawing.Point(425, 17);
+            this.txtAddress.Location = new System.Drawing.Point(483, 17);
             this.txtAddress.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.txtAddress.Name = "txtAddress";
             this.txtAddress.Size = new System.Drawing.Size(164, 36);
@@ -136,7 +136,7 @@ namespace Shabeba
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(602, 22);
+            this.label4.Location = new System.Drawing.Point(660, 22);
             this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(73, 28);
@@ -186,7 +186,7 @@ namespace Shabeba
             // btnAdd
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(887, 188);
+            this.btnAdd.Location = new System.Drawing.Point(1003, 188);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(116, 50);
             this.btnAdd.TabIndex = 12;
@@ -197,7 +197,7 @@ namespace Shabeba
             // btnEdit
             // 
             this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEdit.Location = new System.Drawing.Point(651, 188);
+            this.btnEdit.Location = new System.Drawing.Point(767, 188);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(116, 50);
             this.btnEdit.TabIndex = 13;
@@ -229,7 +229,7 @@ namespace Shabeba
             // 
             this.dgv.AllowUserToAddRows = false;
             this.dgv.AllowUserToDeleteRows = false;
-            this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
@@ -240,11 +240,11 @@ namespace Shabeba
             this.PhoneOfSchool,
             this.NumberofMember});
             this.dgv.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgv.Location = new System.Drawing.Point(0, 354);
+            this.dgv.Location = new System.Drawing.Point(0, 373);
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersWidth = 60;
             this.dgv.RowTemplate.Height = 40;
-            this.dgv.Size = new System.Drawing.Size(1064, 327);
+            this.dgv.Size = new System.Drawing.Size(1180, 327);
             this.dgv.TabIndex = 16;
             this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellClick);
             // 
@@ -253,54 +253,47 @@ namespace Shabeba
             this.id.HeaderText = "رقم المدرسة";
             this.id.Name = "id";
             this.id.ReadOnly = true;
-            this.id.Width = 145;
             // 
             // name
             // 
             this.name.HeaderText = "اسم المدرسة";
             this.name.Name = "name";
             this.name.ReadOnly = true;
-            this.name.Width = 153;
             // 
             // address
             // 
             this.address.HeaderText = "العنوان";
             this.address.Name = "address";
             this.address.ReadOnly = true;
-            this.address.Width = 98;
             // 
             // nameofmanager
             // 
             this.nameofmanager.HeaderText = "اسم المدير";
             this.nameofmanager.Name = "nameofmanager";
             this.nameofmanager.ReadOnly = true;
-            this.nameofmanager.Width = 131;
             // 
             // phoneofmanager
             // 
             this.phoneofmanager.HeaderText = "هاتف المدير";
             this.phoneofmanager.Name = "phoneofmanager";
             this.phoneofmanager.ReadOnly = true;
-            this.phoneofmanager.Width = 137;
             // 
             // PhoneOfSchool
             // 
             this.PhoneOfSchool.HeaderText = "هاتف المدرسة";
             this.PhoneOfSchool.Name = "PhoneOfSchool";
             this.PhoneOfSchool.ReadOnly = true;
-            this.PhoneOfSchool.Width = 159;
             // 
             // NumberofMember
             // 
             this.NumberofMember.HeaderText = "عدد الأعضاء";
             this.NumberofMember.Name = "NumberofMember";
             this.NumberofMember.ReadOnly = true;
-            this.NumberofMember.Width = 139;
             // 
             // txtSearch
             // 
             this.txtSearch.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtSearch.Location = new System.Drawing.Point(388, 288);
+            this.txtSearch.Location = new System.Drawing.Point(446, 288);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(296, 36);
             this.txtSearch.TabIndex = 17;
@@ -311,7 +304,7 @@ namespace Shabeba
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(718, 291);
+            this.label7.Location = new System.Drawing.Point(776, 291);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(128, 28);
             this.label7.TabIndex = 18;
@@ -331,7 +324,6 @@ namespace Shabeba
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1064, 681);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtSearch);
@@ -354,11 +346,9 @@ namespace Shabeba
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Tajawal", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
-            this.MaximizeBox = false;
             this.Name = "School";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "School";
+            this.Size = new System.Drawing.Size(1180, 700);
             this.Load += new System.EventHandler(this.School_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
