@@ -35,15 +35,13 @@ namespace Shabeba
         }
         private static DataTable GetSchools()
         {
-            SqlConnection dbConnection = new SqlConnection(connectionstring);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Schools", dbConnection);
-            dbConnection.Open();
-            SqlDataReader data = cmd.ExecuteReader();
-            DataTable dt = new DataTable();
-            dt.Load(data);
-            dbConnection.Close();
-            return dt;
-
+            string sql = "SELECT * FROM Schools";
+            List<DataAccess.School> schools = new List<DataAccess.School>();
+            using (IDbConnection connection = new SqlConnection(connectionstring))
+            {
+                schools = connection.Query<DataAccess.School>(sql).ToList();
+            }
+            return ToDataTable(schools);
         }
         private bool ValidControl()
         {
@@ -93,9 +91,9 @@ namespace Shabeba
                         MessageBox.Show("المدرسة موجودة بالفعل");
                         return;
                     }
-                    string insert = "insert into [Schools] values (@id,@name,@Address,@Manager,@ManagerPhone,@SchoolPhone,@NumberOfMembers)";
+                    string insert = "insert into [Schools] values (@id,@name,@Address,@Manager,@ManagerPhone,@SchoolPhone)";
                     DataAccess.School schoole = new DataAccess.School();
-                    schoole.FillData(Convert.ToInt32(txtId.Text), Regex.Replace(txtName.Text, @"\s+", " "), Regex.Replace(txtAddress.Text, @"\s+", " "), Regex.Replace(txtNameManager.Text, @"\s+", " "), txtNumberOfManager.Text, txtShcoolPhone.Text, 0);
+                    schoole.FillData(Convert.ToInt32(txtId.Text), Regex.Replace(txtName.Text, @"\s+", " "), Regex.Replace(txtAddress.Text, @"\s+", " "), Regex.Replace(txtNameManager.Text, @"\s+", " "), txtNumberOfManager.Text, txtShcoolPhone.Text);
                     var resutl = dbConnection.Execute(insert, schoole);
                 }
                 string namemessage = txtName.Text;
@@ -111,7 +109,13 @@ namespace Shabeba
                 e.Handled = true;
             }
         }
-
+        private void txtId_Validation(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
         private void txtName_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
@@ -231,49 +235,26 @@ namespace Shabeba
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
-            Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
-            Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
-            app.Visible = true;
-            worksheet = workbook.Sheets["المدارس"];
-            worksheet = workbook.ActiveSheet;
-            worksheet.Name = "السجلات";
-            try
+            
+        }
+        private static DataTable ToDataTable<T>(IList<T> data)
+        {
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+            DataTable table = new DataTable();
+            foreach (PropertyDescriptor prop in properties)
             {
-
-                for (int i = 1; i < dgv.Columns.Count + 1; i++)
-                {
-                    worksheet.Cells[1, i] = dgv.Columns[i - 1].HeaderText;
-                }
-                for (int i = 0; i < dgv.Rows.Count - 1; i++)
-                {
-                    for (int j = 0; j < dgv.Columns.Count; j++)
-                    {
-                        if (dgv.Rows[i].Cells[j].Value != null)
-                        {
-                            worksheet.Cells[i + 2, j + 1] = dgv.Rows[i].Cells[j].Value.ToString();
-                        }
-                        else
-                        {
-                            worksheet.Cells[i + 2, j + 1] = "";
-                        }
-                    }
-                }
-                SaveFileDialog saveDialog = new SaveFileDialog();
-                saveDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
-                saveDialog.FilterIndex = 2;
-
-                if (saveDialog.ShowDialog() == DialogResult.OK)
-                {
-                    workbook.SaveAs(saveDialog.FileName);
-                    MessageBox.Show("Export Successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
             }
-            catch (Exception ex)
+            foreach (T item in data)
             {
-                MessageBox.Show(ex.Message);
-                throw;
+                DataRow row = table.NewRow();
+                foreach (PropertyDescriptor prop in properties)
+                {
+                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                }
+                table.Rows.Add(row);
             }
+            return table;
         }
     }
 }

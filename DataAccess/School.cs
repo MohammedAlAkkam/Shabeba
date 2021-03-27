@@ -15,7 +15,7 @@ namespace DataAccess
         public string ManagerPhone { get; set; }
         public string SchoolPhone { get; set; }
         public int NumberOfMembers { get; set; }
-        public void FillData(int Id, string name, string Address, string Manager, string ManagerPhone, string SchoolPhone, int NumberOfMembers)
+        public void FillData(int Id, string name, string Address, string Manager, string ManagerPhone, string SchoolPhone)
         {
             this.Id = Id;
             this.name = name;
@@ -23,7 +23,6 @@ namespace DataAccess
             this.Manager = Manager;
             this.ManagerPhone = ManagerPhone;
             this.SchoolPhone = SchoolPhone;
-            this.NumberOfMembers = NumberOfMembers;
         }
     }
 

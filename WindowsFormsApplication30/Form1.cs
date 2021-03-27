@@ -16,6 +16,14 @@ namespace WindowsFormsApplication30
         {
             InitializeComponent();
         }
+        private void Filldgv(DataTable table)
+        {
+            dgv.Rows.Clear();
+            foreach (DataRow row in table.Rows)
+            {
+                dgv.Rows.Add(row.ItemArray);
+            }
+        }
         public bool ControlIsValid()
         {
             bool answer = false;
@@ -48,24 +56,15 @@ namespace WindowsFormsApplication30
         string message = " تم إضافة العضو ";
             MessageBox.Show(message + txtName.Text);
             connection.Close();
-            RefreshDAtagridView();
+            
             
             txtName.Clear();
             txtAddress.Clear();
         }
-        private void RefreshDAtagridView()
-        {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Member", connection);
-            connection.Open();
-            SqlDataReader data = cmd.ExecuteReader();
-            DataTable Member = new DataTable();
-            Member.Load(data);
-            dataGridView1.DataSource = Member;
-            connection.Close();
-        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            RefreshDAtagridView();
+            
         }
 
         private void txtId_KeyPress(object sender, KeyPressEventArgs e)
@@ -86,8 +85,8 @@ namespace WindowsFormsApplication30
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtId.Text = dataGridView1.Rows[e.RowIndex].Cells[0].FormattedValue.ToString();
-            txtName.Text = dataGridView1.Rows[e.RowIndex].Cells[1].FormattedValue.ToString();
+            txtId.Text = dgv.Rows[e.RowIndex].Cells[0].FormattedValue.ToString();
+            txtName.Text = dgv.Rows[e.RowIndex].Cells[1].FormattedValue.ToString();
             //sdsada
         }
     }
