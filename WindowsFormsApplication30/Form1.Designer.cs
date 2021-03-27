@@ -30,7 +30,6 @@
         {
             this.txtAddress = new System.Windows.Forms.TextBox();
             this.txtPhoneNumber = new System.Windows.Forms.TextBox();
-            this.txtSchoolName = new System.Windows.Forms.TextBox();
             this.txtMother = new System.Windows.Forms.TextBox();
             this.txtLastName = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
@@ -49,6 +48,17 @@
             this.label10 = new System.Windows.Forms.Label();
             this.dtp = new System.Windows.Forms.DateTimePicker();
             this.dgv = new System.Windows.Forms.DataGridView();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FatherName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MotherName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AffDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SchoolName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cbxSchools = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -63,21 +73,12 @@
             // 
             // txtPhoneNumber
             // 
-            this.txtPhoneNumber.Location = new System.Drawing.Point(440, 244);
+            this.txtPhoneNumber.Location = new System.Drawing.Point(440, 250);
             this.txtPhoneNumber.Margin = new System.Windows.Forms.Padding(6);
             this.txtPhoneNumber.Name = "txtPhoneNumber";
             this.txtPhoneNumber.Size = new System.Drawing.Size(180, 34);
             this.txtPhoneNumber.TabIndex = 0;
             this.txtPhoneNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtId_KeyPress);
-            // 
-            // txtSchoolName
-            // 
-            this.txtSchoolName.Location = new System.Drawing.Point(46, 244);
-            this.txtSchoolName.Margin = new System.Windows.Forms.Padding(6);
-            this.txtSchoolName.Name = "txtSchoolName";
-            this.txtSchoolName.Size = new System.Drawing.Size(180, 34);
-            this.txtSchoolName.TabIndex = 0;
-            this.txtSchoolName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtName_KeyPress);
             // 
             // txtMother
             // 
@@ -227,6 +228,7 @@
             // 
             // dtp
             // 
+            this.dtp.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtp.Location = new System.Drawing.Point(46, 53);
             this.dtp.Name = "dtp";
             this.dtp.Size = new System.Drawing.Size(180, 34);
@@ -236,20 +238,114 @@
             // 
             this.dgv.AllowUserToAddRows = false;
             this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgv.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgv.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.id,
+            this.FirstName,
+            this.FatherName,
+            this.MotherName,
+            this.LastName,
+            this.PhoneNumber,
+            this.AffDate,
+            this.Address,
+            this.SchoolName,
+            this.Description});
             this.dgv.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgv.Location = new System.Drawing.Point(0, 415);
             this.dgv.Name = "dgv";
             this.dgv.Size = new System.Drawing.Size(1172, 275);
             this.dgv.TabIndex = 10;
-            this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellClick);
+            // 
+            // id
+            // 
+            this.id.HeaderText = "رقم العضو";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Width = 132;
+            // 
+            // FirstName
+            // 
+            this.FirstName.HeaderText = "الاسم";
+            this.FirstName.Name = "FirstName";
+            this.FirstName.ReadOnly = true;
+            this.FirstName.Width = 89;
+            // 
+            // FatherName
+            // 
+            this.FatherName.HeaderText = "اسم الأب";
+            this.FatherName.Name = "FatherName";
+            this.FatherName.ReadOnly = true;
+            this.FatherName.Width = 118;
+            // 
+            // MotherName
+            // 
+            this.MotherName.HeaderText = "اسم الأم";
+            this.MotherName.Name = "MotherName";
+            this.MotherName.ReadOnly = true;
+            this.MotherName.Width = 112;
+            // 
+            // LastName
+            // 
+            this.LastName.HeaderText = "الكنية";
+            this.LastName.Name = "LastName";
+            this.LastName.ReadOnly = true;
+            this.LastName.Width = 88;
+            // 
+            // PhoneNumber
+            // 
+            this.PhoneNumber.HeaderText = "رقم الهاتف";
+            this.PhoneNumber.Name = "PhoneNumber";
+            this.PhoneNumber.ReadOnly = true;
+            this.PhoneNumber.Width = 133;
+            // 
+            // AffDate
+            // 
+            this.AffDate.HeaderText = "تاريخ الانتساب";
+            this.AffDate.Name = "AffDate";
+            this.AffDate.ReadOnly = true;
+            this.AffDate.Width = 166;
+            // 
+            // Address
+            // 
+            this.Address.HeaderText = "العنوان";
+            this.Address.Name = "Address";
+            this.Address.ReadOnly = true;
+            this.Address.Width = 103;
+            // 
+            // SchoolName
+            // 
+            this.SchoolName.HeaderText = "اسم المدرسة";
+            this.SchoolName.Name = "SchoolName";
+            this.SchoolName.ReadOnly = true;
+            this.SchoolName.Width = 156;
+            // 
+            // Description
+            // 
+            this.Description.HeaderText = "الوصف";
+            this.Description.Name = "Description";
+            this.Description.ReadOnly = true;
+            this.Description.Width = 99;
+            // 
+            // cbxSchools
+            // 
+            this.cbxSchools.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cbxSchools.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbxSchools.FormattingEnabled = true;
+            this.cbxSchools.Location = new System.Drawing.Point(46, 248);
+            this.cbxSchools.Name = "cbxSchools";
+            this.cbxSchools.Size = new System.Drawing.Size(180, 34);
+            this.cbxSchools.TabIndex = 11;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 26F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1172, 690);
+            this.Controls.Add(this.cbxSchools);
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.dtp);
             this.Controls.Add(this.label10);
@@ -268,7 +364,6 @@
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.txtMother);
             this.Controls.Add(this.txtDescription);
-            this.Controls.Add(this.txtSchoolName);
             this.Controls.Add(this.txtPhoneNumber);
             this.Controls.Add(this.txtAddress);
             this.Font = new System.Drawing.Font("Tajawal Medium", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -287,7 +382,6 @@
         #endregion
         private System.Windows.Forms.TextBox txtAddress;
         private System.Windows.Forms.TextBox txtPhoneNumber;
-        private System.Windows.Forms.TextBox txtSchoolName;
         private System.Windows.Forms.TextBox txtMother;
         private System.Windows.Forms.TextBox txtLastName;
         private System.Windows.Forms.TextBox txtName;
@@ -306,6 +400,17 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.DateTimePicker dtp;
         private System.Windows.Forms.DataGridView dgv;
+        private System.Windows.Forms.ComboBox cbxSchools;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FatherName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MotherName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LastName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PhoneNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AffDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Address;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SchoolName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
     }
 }
 

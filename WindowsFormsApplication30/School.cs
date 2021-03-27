@@ -4,17 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing.Text;
-using System.IO;
 using System.Data.SqlClient;
 using Dapper;
 using DataAccess;
+using static DataAccess.HelperFunctions;
 using System.Text.RegularExpressions;
-using System.Runtime.InteropServices;
-using excel = Microsoft.Office.Interop.Excel;
 namespace Shabeba
 {
     public partial class School : Form
@@ -25,14 +20,7 @@ namespace Shabeba
             this.MinimumSize = new Size(1100, 400);
         }
         private static string connectionstring = @"Data Source =.; Initial Catalog = Shabeba; Integrated Security = True";
-        private void Filldgv(DataTable table)
-        {
-            dgv.Rows.Clear();
-            foreach (DataRow row in table.Rows)
-            {
-                dgv.Rows.Add(row.ItemArray);
-            }
-        }
+        
         private static DataTable GetSchools()
         {
             string sql = "SELECT * FROM Schools";
@@ -74,7 +62,7 @@ namespace Shabeba
         }
         private void School_Load(object sender, EventArgs e)
         {
-            Filldgv(GetSchools());
+            Filldgv(GetSchools(),dgv);
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -98,7 +86,7 @@ namespace Shabeba
                 }
                 string namemessage = txtName.Text;
                 btnReset.PerformClick();
-                Filldgv(GetSchools());
+                Filldgv(GetSchools(),dgv);
                 MessageBox.Show($"تم إضافة مدرسة {namemessage} ");
             }
         }
@@ -159,7 +147,7 @@ namespace Shabeba
                     cmd.Parameters.AddWithValue("@id", txtId.Text);
                     connection.Open();
                     cmd.ExecuteNonQuery();
-                    Filldgv(GetSchools());
+                    Filldgv(GetSchools(),dgv);
                     MessageBox.Show("تم إجاء التعديل بنجاح", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     btnReset.PerformClick();
                 }
@@ -178,7 +166,7 @@ namespace Shabeba
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtSearch.Text))
-                Filldgv(GetSchools());
+                Filldgv(GetSchools(),dgv);
             else
             {
                 SqlConnection connection = new SqlConnection(connectionstring);
@@ -189,7 +177,7 @@ namespace Shabeba
                 SqlDataReader data = cmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(data);
-                Filldgv(dt);
+                Filldgv(dt,dgv);
                 connection.Close();
             }
         }
@@ -223,7 +211,7 @@ namespace Shabeba
                 connection.Open();
                 cmd.ExecuteNonQuery();
                 connection.Close();
-                Filldgv(GetSchools());
+                Filldgv(GetSchools(),dgv);
                 btnReset.PerformClick();
                 MessageBox.Show("تمت عملية الحذف بنجاح", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -237,24 +225,6 @@ namespace Shabeba
         {
             
         }
-        private static DataTable ToDataTable<T>(IList<T> data)
-        {
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-            DataTable table = new DataTable();
-            foreach (PropertyDescriptor prop in properties)
-            {
-                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
-            }
-            foreach (T item in data)
-            {
-                DataRow row = table.NewRow();
-                foreach (PropertyDescriptor prop in properties)
-                {
-                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
-                }
-                table.Rows.Add(row);
-            }
-            return table;
-        }
+        
     }
 }

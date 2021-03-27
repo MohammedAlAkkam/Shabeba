@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using Dapper;
+using static DataAccess.HelperFunctions;
 namespace WindowsFormsApplication30
 {
     public partial class Form1 : Form
@@ -16,14 +18,7 @@ namespace WindowsFormsApplication30
         {
             InitializeComponent();
         }
-        private void Filldgv(DataTable table)
-        {
-            dgv.Rows.Clear();
-            foreach (DataRow row in table.Rows)
-            {
-                dgv.Rows.Add(row.ItemArray);
-            }
-        }
+
         public bool ControlIsValid()
         {
             bool answer = false;
@@ -42,7 +37,7 @@ namespace WindowsFormsApplication30
             return answer;
         }
 
-        SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=YAZAN;Integrated Security=True");
+        static SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=Shabeba;Integrated Security=True");
         private void btnAddEmployee_Click(object sender, EventArgs e)
         {
 
@@ -64,7 +59,18 @@ namespace WindowsFormsApplication30
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            string sql = "EXEC GetAllMembers";
+            IList<DataAccess.Member> members = new List<DataAccess.Member>();
+            List<DataAccess.School> schools = new List<DataAccess.School>();
+            using (IDbConnection dbConnection =connection)
+            {
+                members = dbConnection.Query<DataAccess.Member>(sql).ToList();
+                schools = dbConnection.Query<DataAccess.School>("SELECT * FROM Schools").ToList();
+            }
+            cbxSchools.DataSource = schools;
+            cbxSchools.ValueMember = "Id";
+            cbxSchools.DisplayMember = "name";
+            Filldgv(ToDataTable(members),dgv);
         }
 
         private void txtId_KeyPress(object sender, KeyPressEventArgs e)
@@ -83,11 +89,14 @@ namespace WindowsFormsApplication30
             }
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtId.Text = dgv.Rows[e.RowIndex].Cells[0].FormattedValue.ToString();
-            txtName.Text = dgv.Rows[e.RowIndex].Cells[1].FormattedValue.ToString();
-            //sdsada
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

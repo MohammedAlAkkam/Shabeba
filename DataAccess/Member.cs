@@ -16,7 +16,7 @@ namespace DataAccess
         public string PhoneNumber { get; set; }
         public DateTime Date { get; set; }
         public string Address { get; set; }
-        public string SchoolName { get; set; }
+        public string School { get; set; }
         public string Description { get; set; }
     }
 }
