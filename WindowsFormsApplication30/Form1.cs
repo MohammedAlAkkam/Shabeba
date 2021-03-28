@@ -41,7 +41,12 @@ namespace WindowsFormsApplication30
             return answer;
         }
 
-        private IList<DataAccess.MemberMapping> LoadFrmMembers ()
+        public void RefreshApp()
+        {
+
+        }
+
+        private IList<DataAccess.MemberMapping> LoadFrmMembers()
         {
             string sql = "EXEC GetAllMembers";
             IList<DataAccess.MemberMapping> members = new List<DataAccess.MemberMapping>();
@@ -57,7 +62,8 @@ namespace WindowsFormsApplication30
             cbxSchools.AutoCompleteSource = AutoCompleteSource.ListItems;
             return members;
         }
-        private void Form1_Load(object sender, EventArgs e)
+
+        public void Form1_Load(object sender, EventArgs e)
         {
             Filldgv(ToDataTable(LoadFrmMembers()), dgv);
         }
@@ -69,7 +75,7 @@ namespace WindowsFormsApplication30
                 e.Handled = true;
             }
         }
-        private void NumberValid(object sender , KeyPressEventArgs e)
+        private void NumberValid(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
@@ -78,7 +84,7 @@ namespace WindowsFormsApplication30
         }
         private void txtName_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsLetter(e.KeyChar) && !(char.IsControl(e.KeyChar)) &&!char.IsWhiteSpace(e.KeyChar))
+            if (!char.IsLetter(e.KeyChar) && !(char.IsControl(e.KeyChar)) && !char.IsWhiteSpace(e.KeyChar))
             {
                 e.Handled = true;
             }
@@ -86,14 +92,27 @@ namespace WindowsFormsApplication30
 
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+            txtId.ReadOnly = true;
+            btnAdd.Enabled = false;
+            txtId.Text = dgv.Rows[e.RowIndex].Cells[0].FormattedValue.ToString();
+            txtName.Text = dgv.Rows[e.RowIndex].Cells[1].FormattedValue.ToString();
+            txtFather.Text = dgv.Rows[e.RowIndex].Cells[2].FormattedValue.ToString();
+            txtMother.Text = dgv.Rows[e.RowIndex].Cells[3].FormattedValue.ToString();
+            txtLastName.Text = dgv.Rows[e.RowIndex].Cells[4].FormattedValue.ToString();
+            txtPhoneNumber.Text = dgv.Rows[e.RowIndex].Cells[5].FormattedValue.ToString();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
             using (IDbConnection dbConnection = new SqlConnection("Data Source=.;Initial Catalog=Shabeba;Integrated Security=True"))
             {
-                string name = txtName.Text;
+                int Id = Convert.ToInt32(txtName.Text);
+                bool exist = dbConnection.ExecuteScalar<bool>("select count(1) from Schools where name = @name", new { Id });
+                if (exist)
+                {
+                    MessageBox.Show("يرجى تغيير رقم العضو", "");
+                    return;
+                }
                 string insert = "insert into [Members] values (@Id,@FirstName,@FatherName,@MotherName,@LastName,@PhoneNumber,@AffiliationDate,@Address,@SchoolId,@Description)";
                 DataAccess.Member member = new DataAccess.Member();
                 string Months = dtp.Value.Month.ToString();
@@ -101,7 +120,7 @@ namespace WindowsFormsApplication30
                 string Year = dtp.Value.Year.ToString();
                 member.FillMember(Convert.ToInt32(txtId.Text), Regex.Replace(txtName.Text, @"\s+", " "),
                     Regex.Replace(txtFather.Text, @"\s+", " "), Regex.Replace(txtMother.Text, @"\s+", " "),
-                    Regex.Replace(txtLastName.Text, @"\s+", " "), Regex.Replace(txtPhoneNumber.Text, @"\s+", ""), $"{Year}-{Months}-{Days}", Regex.Replace(txtAddress.Text, @"\s+", " "), (int)cbxSchools.SelectedValue,Regex.Replace(txtDescription.Text,@"\s+"," "));
+                    Regex.Replace(txtLastName.Text, @"\s+", " "), Regex.Replace(txtPhoneNumber.Text, @"\s+", ""), $"{Year}-{Months}-{Days}", Regex.Replace(txtAddress.Text, @"\s+", " "), (int)cbxSchools.SelectedValue, Regex.Replace(txtDescription.Text, @"\s+", " "));
                 dbConnection.Execute(insert, member);
             }
             Filldgv(ToDataTable(LoadFrmMembers()), dgv);
@@ -115,6 +134,8 @@ namespace WindowsFormsApplication30
             txtFather.Clear(); txtPhoneNumber.Clear();
             dtp.Value = DateTime.Now;
             txtAddress.Clear(); txtDescription.Text = "لا يوجد وصف";
+            txtId.ReadOnly = false;
+            btnAdd.Enabled = true;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

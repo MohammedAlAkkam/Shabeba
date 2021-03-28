@@ -10,6 +10,8 @@ using Dapper;
 using DataAccess;
 using static DataAccess.HelperFunctions;
 using System.Text.RegularExpressions;
+using WindowsFormsApplication30;
+
 namespace Shabeba
 {
     public partial class School : UserControl
@@ -21,7 +23,7 @@ namespace Shabeba
         }
         private static string connectionstring = @"Data Source =.; Initial Catalog = Shabeba; Integrated Security = True";
         
-        private static DataTable GetSchools()
+        public static DataTable GetSchools()
         {
             string sql = "SELECT * FROM Schools";
             List<DataAccess.School> schools = new List<DataAccess.School>();
@@ -91,6 +93,8 @@ namespace Shabeba
                 string namemessage = txtName.Text;
                 btnReset.PerformClick();
                 Filldgv(GetSchools(),dgv);
+                FrmMembers frm = new FrmMembers();
+                
                 MessageBox.Show($"تم إضافة مدرسة {namemessage} ");
             }
         }
@@ -136,6 +140,7 @@ namespace Shabeba
             {
                 txtId.ReadOnly = false;
                 btnAdd.Enabled = true;
+
                 SqlConnection connection = new SqlConnection(connectionstring);
                 try
                 {
