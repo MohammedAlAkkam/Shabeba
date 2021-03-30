@@ -41,7 +41,7 @@ namespace ShabebaMain
             string sql = "EXEC GetAllMembers";
             IList<DataAccess.MemberMapping> members = new List<DataAccess.MemberMapping>();
             List<DataAccess.School> schools = new List<DataAccess.School>();
-            using (IDbConnection dbConnection = new SqlConnection(@"Data Source=.;Initial Catalog=Shabeba;Integrated Security=True"))
+            using (IDbConnection dbConnection = new SqlConnection(@"Data Source=.\sqlexpress;Initial Catalog=Shabeba;Integrated Security=True"))
             {
                 members = dbConnection.Query<DataAccess.MemberMapping>(sql).ToList();
                 schools = dbConnection.Query<DataAccess.School>("SELECT * FROM Schools").ToList();
@@ -102,7 +102,7 @@ namespace ShabebaMain
                 MessageBox.Show("يرجى تعبئة الحقول الفارغة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             {
-                using (IDbConnection dbConnection = new SqlConnection(@"Data Source=.;Initial Catalog=Shabeba;Integrated Security=True"))
+                using (IDbConnection dbConnection = new SqlConnection(@"Data Source=.\sqlexpress;Initial Catalog=Shabeba;Integrated Security=True"))
                 {
                     int Id = Convert.ToInt32(txtName.Text);
                     bool exist = dbConnection.ExecuteScalar<bool>("select count(1) from Schools where name = @name", new { Id });
@@ -161,7 +161,7 @@ namespace ShabebaMain
             txtId.ReadOnly = false;
             btnAdd.Enabled = true;
             string UpdateCommand = @"UPDATE [Members] SET FirstName=@FirstName ,FatherName=@FatherName , MotherName=@MotherName,LastName=@LastName,PhoneNumber=@PhoneNumber,AffiliationDate=@AffiliationDate,Address=@Address,SchoolId=@SchoolId,Description=@Description WHERE Id=@Id";
-            SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=Shabeba;Integrated Security=True");
+            SqlConnection connection = new SqlConnection(@"Data Source=.\sqlexpress;Initial Catalog=Shabeba;Integrated Security=True");
             SqlCommand cmd = new SqlCommand(UpdateCommand, connection);
             cmd.Parameters.AddWithValue("@FirstName", txtName.Text);
             cmd.Parameters.AddWithValue("@FatherName", txtFather.Text);

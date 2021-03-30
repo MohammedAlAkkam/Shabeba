@@ -23,8 +23,155 @@ namespace Shabeba
             InitializeComponent();
             this.MinimumSize = new Size(1100, 400);
         }
-        private static string connectionstring = @"Data Source =.; Initial Catalog = Shabeba; Integrated Security = True";
+        private static string connectionstring = @"Data Source =.\sqlexpress; Initial Catalog = Shabeba; Integrated Security = True";
+        private bool CheckDB()
+        {
+            SqlConnection connection = new SqlConnection(connectionstring);
+            try
+            {
+                connection.Open();
+                return true;
+            }
+            catch 
+            {
 
+                return false;
+            }
+        }
+        private void GenerteDB()
+        {
+            #region Command
+            SqlCommand cmd = new SqlCommand(@"USE [master]
+GO
+/****** Object:  Database [Shabeba]    Script Date: 3/30/2021 08:45:41 م ******/
+CREATE DATABASE[Shabeba]
+CONTAINMENT = NONE
+ON  PRIMARY
+(NAME = N'Shabeba', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\Shabeba.mdf', SIZE = 8192KB, MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB)
+LOG ON
+(NAME = N'Shabeba_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\Shabeba_log.ldf', SIZE = 8192KB, MAXSIZE = 2048GB, FILEGROWTH = 65536KB)
+WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE[Shabeba] SET COMPATIBILITY_LEVEL = 100
+GO
+IF(1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC[Shabeba].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE[Shabeba] SET ANSI_NULL_DEFAULT OFF
+GO
+ALTER DATABASE[Shabeba] SET ANSI_NULLS OFF
+GO
+ALTER DATABASE[Shabeba] SET ANSI_PADDING OFF
+GO
+ALTER DATABASE[Shabeba] SET ANSI_WARNINGS OFF
+GO
+ALTER DATABASE[Shabeba] SET ARITHABORT OFF
+GO
+ALTER DATABASE[Shabeba] SET AUTO_CLOSE OFF
+GO
+ALTER DATABASE[Shabeba] SET AUTO_SHRINK OFF
+GO
+ALTER DATABASE[Shabeba] SET AUTO_UPDATE_STATISTICS ON
+GO
+ALTER DATABASE[Shabeba] SET CURSOR_CLOSE_ON_COMMIT OFF
+GO
+ALTER DATABASE[Shabeba] SET CURSOR_DEFAULT  GLOBAL
+GO
+ALTER DATABASE[Shabeba] SET CONCAT_NULL_YIELDS_NULL OFF
+GO
+ALTER DATABASE[Shabeba] SET NUMERIC_ROUNDABORT OFF
+GO
+ALTER DATABASE[Shabeba] SET QUOTED_IDENTIFIER OFF
+GO
+ALTER DATABASE[Shabeba] SET RECURSIVE_TRIGGERS OFF
+GO
+ALTER DATABASE[Shabeba] SET  DISABLE_BROKER
+GO
+ALTER DATABASE[Shabeba] SET AUTO_UPDATE_STATISTICS_ASYNC OFF
+GO
+ALTER DATABASE[Shabeba] SET DATE_CORRELATION_OPTIMIZATION OFF
+GO
+ALTER DATABASE[Shabeba] SET TRUSTWORTHY OFF
+GO
+ALTER DATABASE[Shabeba] SET ALLOW_SNAPSHOT_ISOLATION OFF
+GO
+ALTER DATABASE[Shabeba] SET PARAMETERIZATION SIMPLE
+GO
+ALTER DATABASE[Shabeba] SET READ_COMMITTED_SNAPSHOT OFF
+GO
+ALTER DATABASE[Shabeba] SET HONOR_BROKER_PRIORITY OFF
+GO
+ALTER DATABASE[Shabeba] SET RECOVERY FULL
+GO
+ALTER DATABASE[Shabeba] SET  MULTI_USER
+GO
+ALTER DATABASE[Shabeba] SET PAGE_VERIFY CHECKSUM
+GO
+ALTER DATABASE[Shabeba] SET DB_CHAINING OFF
+GO
+ALTER DATABASE[Shabeba] SET FILESTREAM(NON_TRANSACTED_ACCESS = OFF)
+GO
+ALTER DATABASE[Shabeba] SET TARGET_RECOVERY_TIME = 60 SECONDS
+GO
+ALTER DATABASE[Shabeba] SET DELAYED_DURABILITY = DISABLED
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'Shabeba', N'ON'
+GO
+ALTER DATABASE[Shabeba] SET QUERY_STORE = OFF
+GO
+USE[Shabeba]
+GO
+/****** Object:  Table [dbo].[Members]    Script Date: 3/30/2021 08:45:42 م ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[Members](
+[Id][int] NOT NULL,
+[FirstName][nvarchar](50) NOT NULL,
+[FatherName][nvarchar](50) NOT NULL,
+[MotherName][nvarchar](50) NOT NULL,
+[LastName][nvarchar](50) NOT NULL,
+[PhoneNumber][nvarchar](50) NOT NULL,
+[AffiliationDate][nvarchar](50) NOT NULL,
+[Address][nvarchar](50) NOT NULL,
+[SchoolId][int] NOT NULL,
+[Description][ntext] NOT NULL,
+CONSTRAINT[PK_Members] PRIMARY KEY CLUSTERED
+(
+[Id] ASC
+)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY] TEXTIMAGE_ON[PRIMARY]
+GO
+/****** Object:  Table [dbo].[Schools]    Script Date: 3/30/2021 08:45:43 م ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE[dbo].[Schools](
+[id][int] NOT NULL,
+[name] [nvarchar](50) NOT NULL,
+[address] [nvarchar](50) NOT NULL,
+[manager] [nvarchar](50) NOT NULL,
+[managerPhone] [nvarchar](50) NOT NULL,
+[schoolPhone] [nvarchar](50) NOT NULL,
+[NumberOfMember] [int] NULL,
+CONSTRAINT[PK_المدارس] PRIMARY KEY CLUSTERED
+(
+[id] ASC
+)WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON[PRIMARY]
+) ON[PRIMARY]
+GO
+ALTER TABLE[dbo].[Members]  WITH CHECK ADD CONSTRAINT[FK_Members_Schools] FOREIGN KEY([SchoolId])
+REFERENCES[dbo].[Schools]([id])
+GO
+ALTER");
+            #endregion
+            cmd.Connection = new SqlConnection(connectionstring);
+            cmd.ExecuteNonQuery();
+        }
         public DataTable GetSchools()
         {
             string sql = "SELECT * FROM Schools";
@@ -71,6 +218,10 @@ namespace Shabeba
         }
         private void School_Load(object sender, EventArgs e)
         {
+            if (!CheckDB())
+            {
+                GenerteDB();
+            }
             DataTable table = GetSchools();
             Filldgv(table, dgv);
         }
