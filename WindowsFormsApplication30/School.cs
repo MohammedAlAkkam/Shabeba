@@ -10,7 +10,7 @@ using Dapper;
 using DataAccess;
 using static DataAccess.HelperFunctions;
 using System.Text.RegularExpressions;
-using WindowsFormsApplication30;
+using ShabebaMain;
 
 namespace Shabeba
 {
@@ -22,8 +22,8 @@ namespace Shabeba
             this.MinimumSize = new Size(1100, 400);
         }
         private static string connectionstring = @"Data Source =.; Initial Catalog = Shabeba; Integrated Security = True";
-        
-        public static DataTable GetSchools()
+        FrmMembers frm = new FrmMembers();
+        public  DataTable GetSchools()
         {
             string sql = "SELECT * FROM Schools";
             List<DataAccess.School> schools = new List<DataAccess.School>();
@@ -93,8 +93,7 @@ namespace Shabeba
                 string namemessage = txtName.Text;
                 btnReset.PerformClick();
                 Filldgv(GetSchools(),dgv);
-                FrmMembers frm = new FrmMembers();
-                
+                Filldgv(ToDataTable(frm.LoadFrmMembers()), frm.dgv);
                 MessageBox.Show($"تم إضافة مدرسة {namemessage} ");
             }
         }
@@ -157,8 +156,9 @@ namespace Shabeba
                     connection.Open();
                     cmd.ExecuteNonQuery();
                     Filldgv(GetSchools(),dgv);
-                    MessageBox.Show("تم إجاء التعديل بنجاح", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Filldgv(ToDataTable(frm.LoadFrmMembers()), frm.dgv);
                     btnReset.PerformClick();
+                    MessageBox.Show("تم إجاء التعديل بنجاح", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -211,7 +211,7 @@ namespace Shabeba
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("هل تريد جذف هذا السجل", "حذف", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show("هل تريد حذف هذا السجل", "حذف", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 SqlConnection connection = new SqlConnection(connectionstring);
                 string DeleteCommand = "DELETE FROM [Schools] WHERE id = @id";
@@ -221,6 +221,7 @@ namespace Shabeba
                 cmd.ExecuteNonQuery();
                 connection.Close();
                 Filldgv(GetSchools(),dgv);
+                Filldgv(ToDataTable(frm.LoadFrmMembers()), frm.dgv);
                 btnReset.PerformClick();
                 MessageBox.Show("تمت عملية الحذف بنجاح", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

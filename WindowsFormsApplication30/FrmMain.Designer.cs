@@ -33,7 +33,7 @@
             this.btnSchools = new System.Windows.Forms.Button();
             this.btnMembers = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.frmMembers1 = new WindowsFormsApplication30.FrmMembers();
+            this.frmMembers1 = new ShabebaMain.FrmMembers();
             this.school1 = new Shabeba.School();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -148,7 +148,7 @@
         private School school1;
         private System.Windows.Forms.Button btnSchools;
         private System.Windows.Forms.Button btnMembers;
-        private WindowsFormsApplication30.FrmMembers frmMembers1;
+        private ShabebaMain.FrmMembers frmMembers1;
         private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

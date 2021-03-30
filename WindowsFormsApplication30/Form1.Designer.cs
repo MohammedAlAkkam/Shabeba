@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication30
+﻿namespace ShabebaMain
 {
     partial class FrmMembers
     {
@@ -366,6 +366,7 @@
             this.btnEdit.TabIndex = 13;
             this.btnEdit.Text = "تعديل";
             this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnDelete
             // 
@@ -375,6 +376,7 @@
             this.btnDelete.TabIndex = 14;
             this.btnDelete.Text = "حذف";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnReset
             // 
@@ -466,8 +468,8 @@
         private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.DateTimePicker dtp;
-        private System.Windows.Forms.DataGridView dgv;
-        private System.Windows.Forms.ComboBox cbxSchools;
+        public System.Windows.Forms.DataGridView dgv;
+        public System.Windows.Forms.ComboBox cbxSchools;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
         private System.Windows.Forms.DataGridViewTextBoxColumn FatherName;

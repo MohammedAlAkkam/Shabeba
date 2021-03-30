@@ -75,6 +75,7 @@ namespace Shabeba
             this.txtId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtId.Location = new System.Drawing.Point(865, 17);
             this.txtId.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.txtId.MaxLength = 8;
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(164, 36);
             this.txtId.TabIndex = 1;
@@ -374,7 +375,7 @@ namespace Shabeba
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnReset;
-        private System.Windows.Forms.DataGridView dgv;
+        public System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
