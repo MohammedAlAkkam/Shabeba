@@ -65,6 +65,7 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
+            this.btnExport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -223,6 +224,7 @@
             this.txtDescription.Size = new System.Drawing.Size(319, 67);
             this.txtDescription.TabIndex = 0;
             this.txtDescription.Text = "لا يوجد وصف";
+            this.txtDescription.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDescription_KeyDown);
             this.txtDescription.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtName_KeyPress);
             // 
             // label10
@@ -405,10 +407,22 @@
             this.txtSearch.TabIndex = 18;
             this.txtSearch.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
+            // btnExport
+            // 
+            this.btnExport.AutoSize = true;
+            this.btnExport.Location = new System.Drawing.Point(17, 293);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(225, 38);
+            this.btnExport.TabIndex = 19;
+            this.btnExport.Text = "تصدير إلى جدول اكسيل";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // FrmMembers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 26F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnExport);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.btnReset);
@@ -486,6 +500,7 @@
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Button btnExport;
     }
 }
 

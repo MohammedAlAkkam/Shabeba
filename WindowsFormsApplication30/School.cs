@@ -11,6 +11,8 @@ using DataAccess;
 using static DataAccess.HelperFunctions;
 using System.Text.RegularExpressions;
 using ShabebaMain;
+using ClosedXML.Excel;
+using System.IO;
 
 namespace Shabeba
 {
@@ -22,26 +24,27 @@ namespace Shabeba
             this.MinimumSize = new Size(1100, 400);
         }
         private static string connectionstring = @"Data Source =.; Initial Catalog = Shabeba; Integrated Security = True";
-        FrmMembers frm = new FrmMembers();
-        public  DataTable GetSchools()
+
+        public DataTable GetSchools()
         {
             string sql = "SELECT * FROM Schools";
             List<DataAccess.School> schools = new List<DataAccess.School>();
             using (IDbConnection connection = new SqlConnection(connectionstring))
             {
                 schools = connection.Query<DataAccess.School>(sql).ToList();
-                schools.ForEach(item => { 
-                item.NumberOfMembers = connection.QueryFirst<int>("SELECT COUNT(SchoolId) FROM [Members] WHERE SchoolId=@Id", new { item.Id });
+                schools.ForEach(item =>
+                {
+                    item.NumberOfMembers = connection.QueryFirst<int>("SELECT COUNT(SchoolId) FROM [Members] WHERE SchoolId=@Id", new { item.Id });
                 });
             }
-           
+
             return ToDataTable(schools);
         }
         private bool ValidControl()
         {
             if (txtId.Text == "")
             {
-                MessageBox.Show("ادخل رقم المدرسة","",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("ادخل رقم المدرسة", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             else if (txtName.Text == "")
@@ -68,7 +71,8 @@ namespace Shabeba
         }
         private void School_Load(object sender, EventArgs e)
         {
-            Filldgv(GetSchools(),dgv);
+            DataTable table = GetSchools();
+            Filldgv(table, dgv);
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -92,7 +96,8 @@ namespace Shabeba
                 }
                 string namemessage = txtName.Text;
                 btnReset.PerformClick();
-                Filldgv(GetSchools(),dgv);
+                Filldgv(GetSchools(), dgv);
+                FrmMembers frm = new FrmMembers();
                 Filldgv(ToDataTable(frm.LoadFrmMembers()), frm.dgv);
                 MessageBox.Show($"تم إضافة مدرسة {namemessage} ");
             }
@@ -155,7 +160,8 @@ namespace Shabeba
                     cmd.Parameters.AddWithValue("@id", txtId.Text);
                     connection.Open();
                     cmd.ExecuteNonQuery();
-                    Filldgv(GetSchools(),dgv);
+                    Filldgv(GetSchools(), dgv);
+                    FrmMembers frm = new FrmMembers();
                     Filldgv(ToDataTable(frm.LoadFrmMembers()), frm.dgv);
                     btnReset.PerformClick();
                     MessageBox.Show("تم إجاء التعديل بنجاح", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -175,7 +181,7 @@ namespace Shabeba
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtSearch.Text))
-                Filldgv(GetSchools(),dgv);
+                Filldgv(GetSchools(), dgv);
             else
             {
                 SqlConnection connection = new SqlConnection(connectionstring);
@@ -186,7 +192,7 @@ namespace Shabeba
                 SqlDataReader data = cmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(data);
-                Filldgv(dt,dgv);
+                Filldgv(dt, dgv);
                 connection.Close();
             }
         }
@@ -220,7 +226,8 @@ namespace Shabeba
                 connection.Open();
                 cmd.ExecuteNonQuery();
                 connection.Close();
-                Filldgv(GetSchools(),dgv);
+                Filldgv(GetSchools(), dgv);
+                FrmMembers frm = new FrmMembers();
                 Filldgv(ToDataTable(frm.LoadFrmMembers()), frm.dgv);
                 btnReset.PerformClick();
                 MessageBox.Show("تمت عملية الحذف بنجاح", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -233,8 +240,20 @@ namespace Shabeba
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            DataTable table = new DataTable();
+            table = GetFromDataGridView(dgv);
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "مصنف اكسيل|*.xlsx", InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) })
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    using (XLWorkbook workbook = new XLWorkbook())
+                    {
+                        workbook.Worksheets.Add(table, $"المدارس");
+                        workbook.SaveAs(sfd.FileName);
+                    }
+                    MessageBox.Show("تمّ تصدير البيانات إلى جدول اكسيل", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
-        
     }
 }

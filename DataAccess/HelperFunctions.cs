@@ -11,6 +11,28 @@ namespace DataAccess
 {
     public static class HelperFunctions
     {
+        public  static DataTable GetFromDataGridView(DataGridView dgv)
+        {
+            var dt = new DataTable();
+            foreach (DataGridViewColumn column in dgv.Columns)
+            {
+                DataColumn dataColumn = new DataColumn();
+                dataColumn.ColumnName = column.HeaderText;
+                dt.Columns.Add(dataColumn);
+            }
+
+            object[] cellValues = new object[dgv.Columns.Count];
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                for (int i = 0; i < row.Cells.Count; i++)
+                {
+                    cellValues[i] = row.Cells[i].Value;
+                }
+                dt.Rows.Add(cellValues);
+            }
+
+            return dt;
+        }
         public static void Filldgv(DataTable table, DataGridView dgv)
         {
             dgv.Rows.Clear();

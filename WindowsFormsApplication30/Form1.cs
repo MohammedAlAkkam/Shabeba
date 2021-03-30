@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using Dapper;
 using static DataAccess.HelperFunctions;
 using System.Text.RegularExpressions;
+using ClosedXML.Excel;
 
 namespace ShabebaMain
 {
@@ -40,7 +41,7 @@ namespace ShabebaMain
             string sql = "EXEC GetAllMembers";
             IList<DataAccess.MemberMapping> members = new List<DataAccess.MemberMapping>();
             List<DataAccess.School> schools = new List<DataAccess.School>();
-            using (IDbConnection dbConnection = new SqlConnection("Data Source=.;Initial Catalog=Shabeba;Integrated Security=True"))
+            using (IDbConnection dbConnection = new SqlConnection(@"Data Source=.;Initial Catalog=Shabeba;Integrated Security=True"))
             {
                 members = dbConnection.Query<DataAccess.MemberMapping>(sql).ToList();
                 schools = dbConnection.Query<DataAccess.School>("SELECT * FROM Schools").ToList();
@@ -101,7 +102,7 @@ namespace ShabebaMain
                 MessageBox.Show("يرجى تعبئة الحقول الفارغة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             {
-                using (IDbConnection dbConnection = new SqlConnection("Data Source=.;Initial Catalog=Shabeba;Integrated Security=True"))
+                using (IDbConnection dbConnection = new SqlConnection(@"Data Source=.;Initial Catalog=Shabeba;Integrated Security=True"))
                 {
                     int Id = Convert.ToInt32(txtName.Text);
                     bool exist = dbConnection.ExecuteScalar<bool>("select count(1) from Schools where name = @name", new { Id });
@@ -142,7 +143,7 @@ namespace ShabebaMain
                 Filldgv(ToDataTable(LoadFrmMembers()), dgv);
             else
             {
-                SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=Shabeba;Integrated Security=True");
+                SqlConnection connection = new SqlConnection(@"Data Source=.;Initial Catalog=Shabeba;Integrated Security=True");
                 string search = Regex.Replace(txtSearch.Text, @"\s+", " ");
                 SqlCommand cmd = new SqlCommand("SELECT * FROM Members WHERE [FirstName] like N'%" + search + "%'", connection);
                 cmd.Parameters.AddWithValue("@name", txtSearch.Text);
@@ -188,7 +189,7 @@ namespace ShabebaMain
         {
             if (MessageBox.Show("هل تريد حذف هذا السجل", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                using (IDbConnection dbConnection = new SqlConnection("Data Source =.; Initial Catalog = Shabeba; Integrated Security = True"))
+                using (IDbConnection dbConnection = new SqlConnection(@"Data Source =.\sqlexpress; Initial Catalog = Shabeba; Integrated Security = True"))
                 {
                     int Id = Convert.ToInt32(txtId.Text);
                     dbConnection.Execute("DELETE FROM [Members] Where Id=@Id", new { Id });
@@ -197,6 +198,40 @@ namespace ShabebaMain
                 Filldgv(sch.GetSchools(), sch.dgv);
                 btnReset.PerformClick();
                 MessageBox.Show("تمت عملية الحذف بنجاح", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            DataTable Memebertable = new DataTable();
+            Memebertable = GetFromDataGridView(dgv);
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "مصنف اكسيل|*.xlsx", InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) })
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        using (XLWorkbook workbook = new XLWorkbook())
+                        {
+                            workbook.Worksheets.Add(Memebertable, "الأعضاء");
+                            workbook.SaveAs(sfd.FileName);
+                        }
+                        MessageBox.Show("تمّ تصدير البيانات إلى جدول اكسيل", "نجاح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void txtDescription_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                btnAdd.PerformClick();
             }
         }
     }
